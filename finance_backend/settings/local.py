@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from .base import *  # noqa: F403, F401
 from .base import BASE_DIR
 
+# local env settings 
 local_env_file = path.join(BASE_DIR, '.envs', '.env.local')
 
 if path.isfile(local_env_file):
