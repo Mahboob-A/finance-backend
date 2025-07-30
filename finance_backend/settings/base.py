@@ -2,6 +2,7 @@
 from os import getenv, path 
 from pathlib import Path
 from dotenv import load_dotenv
+from loguru import logger
 
 ##################### Settings Configuration #####################
 # goes to the root of the project where the manage.py file is located
@@ -9,7 +10,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
 APPS_DIR = BASE_DIR / 'core_apps'
 
-local_env_file = path.join(BASE_DIR, '.envs', 'env.local')
+local_env_file = path.join(BASE_DIR, '.envs', '.env.local')
 
 if path.isfile(local_env_file):
     load_dotenv(local_env_file)
@@ -148,3 +149,49 @@ STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 
 ##################### Misc #####################
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+##################### Logging Configuration #####################
+LOGGING_CONFIG = None # Disable Django's default logging configuration
+
+LOGURU_LOGGING = {
+    "handlers": [
+        {
+            # Logs only DEBUG messages
+            "sink": BASE_DIR / "logs" / "debug.log",
+            "level": "DEBUG",
+            "filter": lambda record: record["level"].name == "DEBUG",
+            "format": "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
+            "rotation": "10 MB",
+            "retention": "30 days",
+            "compression": "zip",
+            "enqueue": True,
+        },
+        {
+            # Logs INFO and WARNING messages
+            "sink": BASE_DIR / "logs" / "info_warning.log",
+            "level": "INFO",
+            "filter": lambda record: record["level"].name in ("INFO", "WARNING"),
+            "format": "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
+            "rotation": "10 MB",
+            "retention": "30 days",
+            "compression": "zip",
+            "enqueue": True,
+        },
+        {
+            # Logs ERROR and CRITICAL messages
+            "sink": BASE_DIR / "logs" / "error_critical.log",
+            "level": "ERROR",
+            "filter": lambda record: record["level"].name in ("ERROR", "CRITICAL"),
+            "format": "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
+            "rotation": "10 MB",
+            "retention": "1 month",
+            "compression": "zip",
+            "enqueue": True,
+            "backtrace": True,
+            "diagnose": True,
+        },
+    ],
+}
+
+logger.configure(**LOGURU_LOGGING)
