@@ -4,7 +4,7 @@ import logging
 
 
 
-class InterceptHandler(logging.Handler):
+class LogInterceptHandler(logging.Handler):
     def emit(self, record):
         # get corresponding Loguru level if it exists
         try:

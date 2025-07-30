@@ -88,10 +88,24 @@ WSGI_APPLICATION = 'finance_backend.wsgi.application'
 
 
 ##################### Database Configuration #####################
+# SQLite database configuration
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# postgres database configuration  
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('POSTGRES_DB'),
+        'USER': getenv('POSTGRES_USER'),
+        'PASSWORD': getenv('POSTGRES_PASSWORD'),
+        'HOST': getenv('POSTGRES_HOST'),
+        'PORT': getenv('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -195,3 +209,19 @@ LOGURU_LOGGING = {
 }
 
 logger.configure(**LOGURU_LOGGING)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "loguru": {
+            "class": "log_intercepter.LogInterceptHandler",
+        }
+    },
+    "root": {
+        "handlers": ["loguru"],
+        "level": "DEBUG",
+    }
+}
+
+
