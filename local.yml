@@ -5,11 +5,12 @@ services:
       dockerfile: ./docker/local/django/Dockerfile
     volumes:
       - .:/app:z # auto syncing the host code to the container using "z"
-      - ./staticfiles:/app/staticfiles
+      - finance_backend_staticfiles:/app/staticfiles
+      - finance_backend_logs:/app/logs
     ports:
       - "8000:8000"
     env_file:
-      -./.envs/.env.local
+      - ./.envs/.env.local
     depends_on:
       - postgres
       - mailpit 
@@ -27,7 +28,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      -./.envs/.env.local
+      - ./.envs/.env.local
     networks:
       - finance_backend_local_nw
   
@@ -39,10 +40,10 @@ services:
     volumes:
       - finance_backend_mailpit_db:/data
     environment:
-      - MP_MAX_MESSAGES: 5000
-      - MP_DATA_FILE: /data/mailpit.db
-      - MP_SMTP_AUTH_ACCEPT_ANY: 1
-      - MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      - MP_MAX_MESSAGES=5000
+      - MP_DATA_FILE=/data/mailpit.db
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
     networks:
       - finance_backend_local_nw
 
@@ -55,6 +56,8 @@ networks:
 volumes:
   finance_backend_pgdb:
   finance_backend_mailpit_db:
+  finance_backend_logs: 
+  finance_backend_staticfiles: 
 
 
 

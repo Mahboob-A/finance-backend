@@ -10,10 +10,10 @@ ARG BUILD_ENVIRONMENT=local
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
-    libpq-dev \
+    libpq-dev 
 
 
-COPY ./requirements.txt . 
+COPY ./requirements . 
 
 RUN pip wheel --wheel-dir /usr/src/app/wheels \ 
     -r ${BUILD_ENVIRONMENT}.txt
