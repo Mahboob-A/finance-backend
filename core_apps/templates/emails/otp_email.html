@@ -1,0 +1,15 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Your Login OTP{% endblock title %}
+
+{% block content %}
+    <h2>Your One-Time Password (OTP)</h2>
+    <p>Dear {{ user.full_name }},</p>
+    <p>Your OTP code is: <strong>{{ otp }}</strong></p>
+    <p>This code is valid for the next <strong>{{ expiry_time }} minutes</strong>.</p>
+    <p>Please use this code to complete your login.</p>
+    <p>If you did not request this code, please ignore this email.</p>
+    <p>Thank you!</p>
+    <p>Best regards,</p>
+    <p><strong>The {{ site_name }} Team</strong></p>
+{% endblock content %}
