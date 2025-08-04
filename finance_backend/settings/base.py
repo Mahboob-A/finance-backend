@@ -3,6 +3,7 @@ from os import getenv, path
 from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
+from datetime import timedelta
 
 ##################### Settings Configuration #####################
 # goes to the root of the project where the manage.py file is located

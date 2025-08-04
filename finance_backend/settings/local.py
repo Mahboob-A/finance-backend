@@ -43,3 +43,16 @@ if not DOMAIN.startswith('http'):
 
 ##################### Image Upload Configuration #####################
 MAXIMUM_UPLOAD_SIZE = 1 * 1024 * 1024  # 1 MB
+
+##################### CSRF Configuration #####################
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000", "http://localhost:8080", "http://127.0.0.1:8080"]
+
+
+##################### Authentication Configuration #####################
+LOCKOUT_DURATION = timedelta(minutes=1)  # Lockout duration for failed login attempts, 1 for develo"http://127.0.0.1:8000"pment, increase for production
+
+LOGIN_ATTEMPTS = 3  # Number of allowed login attempts before lockout, increase for production
+
+OTP_EXPIRATION = timedelta(minutes=1)  # OTP expiration time, increase for production
+
+
