@@ -143,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-##################### Internationalization #####################
+################ Internationalization ###############
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -155,12 +155,13 @@ USE_TZ = True
 SITE_ID = 1
 
 
-##################### STATIC FILES #####################
+################## STATIC FILES #################
 STATIC_URL = '/static/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 
 
-
+################## User Model ##################
+AUTH_USER_MODEL = 'user_auth.User'
 
 ##################### Misc #####################
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

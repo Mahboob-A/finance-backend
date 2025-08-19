@@ -119,11 +119,11 @@ class User(AbstractUser):
         choices=RoleChoices.choices,
         default=RoleChoices.CUSTOMER
     )
-    failed_login_attempts = models.PositiveSmallIntegerField(
+    failed_login_attempts_count = models.PositiveSmallIntegerField(
         _("Failed Login Attempts"),
         default=0
     )
-    last_failed_login = models.DateTimeField(
+    last_failed_login_time = models.DateTimeField(
         _("Last Failed Login"),
         null=True,
         blank=True
@@ -165,3 +165,53 @@ class User(AbstractUser):
             self.save()
             return True
         return False
+
+    def handle_failed_login_attempt(self) -> None: 
+        self.failed_login_attempts_count += 1
+        self.last_failed_login_time = timezone.now()
+        if self.failed_login_attempts_count >= settings.MAX_FAILED_LOGIN_attempts_count:
+            self.account_status = self.AccountStatus.LOCKED
+            self.save()
+            send_account_locked_email(self)
+        self.save()
+
+    def reset_failed_login_attempts_count(self) -> None:
+        self.failed_login_attempts_count = 0
+        self.last_failed_login_time = None
+        self.account_status = self.AccountStatus.ACTIVE
+        self.save()
+
+    def unlock_account(self) -> None:
+        if self.account_status == self.AccountStatus.LOCKED:
+            self.account_status = self.AccountStatus.ACTIVE
+            self.failed_login_attempts_count = 0
+            self.last_failed_login_time = None
+            self.save()
+
+    @property
+    def is_account_locked_out(self) -> bool:
+        if self.account_status == self.AccountStatus.LOCKED:
+            if (
+                self.last_failed_login_time is not None
+                and timezone.now() - self.last_failed_login_time > settings.LOCKOUT_DURATION
+            ):
+                self.unlock_account()
+                return False
+            return True
+        return False
+    
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.middle_name or ''} {self.last_name}".title().strip()
+
+    def has_role(self, role: str) -> bool:
+        return hasattr(self, "role") and self.role == role
+
+    def __str__(self) -> str:
+        return f"{self.full_name} ({self.email}) - {self.get_role_display()}"
+
+    class Meta: 
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+        ordering = ["-date_joined"]
+
