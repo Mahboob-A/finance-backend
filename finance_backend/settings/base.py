@@ -167,6 +167,27 @@ AUTH_USER_MODEL = 'user_auth.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+##################### DRF #####################
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+################## Spectacular Documentation ############
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Finance Backend API",
+    "DESCRIPTION": "Documentation of API endpoints of Finance Backend",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/",
+    },
+    # OTHER SETTINGS
+    # "SWAGGER_UI_DIST": "SIDECAR",  # shim
+    # "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    # "REDOC_DIST": "SIDECAR",
+}
+
 ##################### Logging Configuration #####################
 LOGGING_CONFIG = None # Disable Django's default logging configuration
 

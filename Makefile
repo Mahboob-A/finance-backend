@@ -1,8 +1,8 @@
-build:
+up-build:
 	docker compose -f local.yml up --build -d --remove-orphans
 
 up: 
-	docker compose -f local.yml up -d 
+	docker compose -f local.yml up -d --remove-orphans
 
 down: 
 	docker compose -f local.yml down

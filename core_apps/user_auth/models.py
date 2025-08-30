@@ -6,8 +6,8 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from user_auth.emails import send_account_locked_email
-from user_auth.managers import UserManager
+from core_apps.user_auth.emails import send_account_locked_email
+from core_apps.user_auth.managers import UserManager
 
 
 
@@ -70,18 +70,18 @@ class User(AbstractUser):
     )
     username = models.CharField(
         _("Username"), 
-        max_length=15,
+        max_length=100,
         unique=True
     )
     security_question = models.CharField(
         _("Security Question"),
-        max_length=50,
+        max_length=100,
         choices=SecurityQuestions.choices,
         default=SecurityQuestions.MAIDEN_NAME
     )
     security_answer = models.CharField(
         _("Security Answer"),
-        max_length=50
+        max_length=100
     )
     email = models.EmailField(
         _("Email"),
@@ -91,17 +91,17 @@ class User(AbstractUser):
     )
     first_name = models.CharField(
         _("First Name"),
-        max_length=50
+        max_length=100
     )
     middle_name = models.CharField(
         _("Middle Name"),
-        max_length=50,
+        max_length=100,
         null=True,
         blank=True, 
     )
     last_name = models.CharField(
         _("Last Name"),
-        max_length=50
+        max_length=100
     )
     id_no = models.PositiveIntegerField(
         _("ID Number"),
@@ -115,7 +115,7 @@ class User(AbstractUser):
     )
     role = models.CharField(
         _("Role"),
-        max_length=20,
+        max_length=25,
         choices=RoleChoices.choices,
         default=RoleChoices.CUSTOMER
     )
