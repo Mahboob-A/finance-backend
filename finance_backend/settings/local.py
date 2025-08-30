@@ -51,7 +51,7 @@ CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000", "http:
 ##################### Authentication Configuration #####################
 LOCKOUT_DURATION = timedelta(minutes=1)  # Lockout duration for failed login attempts, 1 for develo"http://127.0.0.1:8000"pment, increase for production
 
-LOGIN_ATTEMPTS = 3  # Number of allowed login attempts before lockout, increase for production
+MAX_FAILED_LOGIN_ATTEMPTS = 3  # Number of allowed login attempts before lockout, increase for production
 
 OTP_EXPIRATION = timedelta(minutes=1)  # OTP expiration time, increase for production
 

@@ -143,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-##################### Internationalization #####################
+################ Internationalization ###############
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -155,16 +155,38 @@ USE_TZ = True
 SITE_ID = 1
 
 
-##################### STATIC FILES #####################
+################## STATIC FILES #################
 STATIC_URL = '/static/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 
 
-
+################## User Model ##################
+AUTH_USER_MODEL = 'user_auth.User'
 
 ##################### Misc #####################
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+##################### DRF #####################
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+################## Spectacular Documentation ############
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Finance Backend API",
+    "DESCRIPTION": "Documentation of API endpoints of Finance Backend",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit/",
+    },
+    # OTHER SETTINGS
+    # "SWAGGER_UI_DIST": "SIDECAR",  # shim
+    # "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    # "REDOC_DIST": "SIDECAR",
+}
 
 ##################### Logging Configuration #####################
 LOGGING_CONFIG = None # Disable Django's default logging configuration
